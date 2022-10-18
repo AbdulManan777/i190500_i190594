@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".take_ph_no">
+    tools:context=".PhNo_verification">
+
 
     <LinearLayout
         android:weightSum="1"
@@ -15,7 +16,7 @@
         >
 
         <LinearLayout
-            android:layout_weight="0.2"
+            android:layout_weight="0.4"
             android:weightSum="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,40 +60,48 @@
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_weight="0.6"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_centerInParent="true"
             >
-            <LinearLayout
+
+            <TextView
+                android:id="@+id/tb"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                >
-                <EditText
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:inputType="number"
+                android:textSize="100dp"
+                android:gravity="center"
+                android:hint="0000"
+                android:background="#FFF"/>
 
-                    android:id="@+id/PhNo_signup"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:background="@drawable/rounded_textfield"
-                    android:inputType="phone"
-                    android:hint="Enter Phone Number"
-                    android:paddingLeft="10dp"
-                    android:textColorHint="#FFE338"
-                    android:layout_margin="10dp"
-                    />
+            <EditText
+                android:id="@+id/otp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:inputType="number"
+                android:textSize="100dp"
+                android:gravity="center"
+                android:hint="0000"
+                android:background="#FFF">
 
-            </LinearLayout>
+            </EditText>
+
             <Button
-                android:id="@+id/submit_phno"
-                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Submit"
-                android:textSize="20dp"
-                android:textColorHint="#FFFF"
-                />
+                android:text="Verify"
+                android:textSize="30dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:id="@+id/verify_phno"/>
+
+
 
         </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

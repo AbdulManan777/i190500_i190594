@@ -5,145 +5,60 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.TimeUnit;
 
 public class take_ph_no extends AppCompatActivity {
-    EditText Ph_no,Ph_no_password, OTP, Phno_email;
-    Button submit, verify;
+    EditText Ph_no;
+    Button submit;
     FirebaseAuth mAuth;
-    String verification_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_ph_no);
         Ph_no = findViewById(R.id.PhNo_signup);
-        Ph_no_password = findViewById(R.id.PhNo_password);
         submit = findViewById(R.id.submit_phno);
-        OTP = findViewById(R.id.otp);
-        verify = findViewById(R.id.verify_phno);
-        Phno_email=findViewById(R.id.PhNo_email);
         mAuth=FirebaseAuth.getInstance();
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(Ph_no.getText().toString()) || TextUtils.isEmpty(Ph_no_password.getText().toString()))
-                    Toast.makeText(take_ph_no.this, "Enter Phone Number and Password", Toast.LENGTH_SHORT).show();
-                else {
-                    PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
-                            .setPhoneNumber(Ph_no.getText().toString())
-                            .setActivity(take_ph_no.this)
-                            .setTimeout(60L, TimeUnit.SECONDS)
-                            .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                                @Override
-                                public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                                    super.onCodeSent(s, forceResendingToken);
-                                    verification_id = s;
-                                }
+                PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(Ph_no.getText().toString())
+                        .setActivity(take_ph_no.this)
+                        .setTimeout(60L, TimeUnit.SECONDS)
+                        .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                            @Override
+                            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken){
+                                super.onCodeSent(s,forceResendingToken);
+                                Intent i=new Intent(take_ph_no.this,PhNo_verification.class);
+                                i.putExtra("code",s);
+                                startActivity(i);
+                            }
+                            @Override
+                            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
 
-                                @Override
-                                public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                                    Toast.makeText(take_ph_no.this,"Hello",Toast.LENGTH_LONG).show();
+                            }
 
+                            @Override
+                            public void onVerificationFailed(@NonNull FirebaseException e) {
 
-                                    final String code = phoneAuthCredential.getSmsCode();
-                                    if( code != null) {
-                                        verifyCode(code);
-                                    }
-                                }
+                            }
+                        })
 
-                                @Override
-                                public void onVerificationFailed(@NonNull FirebaseException e) {
-                                    Toast.makeText(take_ph_no.this, "Verification Failed", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-
-                            .build();
-                    PhoneAuthProvider.verifyPhoneNumber(options);
-                }
-            }
-        });
-        verify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                verifyCode(OTP.getText().toString());
+                        .build();
+                PhoneAuthProvider.verifyPhoneNumber(options);
             }
         });
 
-
-
-    }
-    private void verifyCode(String code) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verification_id, code);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-
-
-
-                            AuthCredential credential = EmailAuthProvider.getCredential(Phno_email.getText().toString(), Ph_no_password.getText().toString());
-
-                            mAuth.getCurrentUser().linkWithCredential(credential)
-                                    .addOnCompleteListener(take_ph_no.this, new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if (task.isSuccessful()) {
-
-                                                FirebaseUser user = task.getResult().getUser();
-
-                                            } else {
-
-                                                Toast.makeText(take_ph_no.this, "Authentication failed.",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-
-
-                            FirebaseDatabase  database =FirebaseDatabase.getInstance();
-
-                            UserInfo m=new UserInfo(
-                                    Ph_no.getText().toString(),
-                                    Ph_no_password.getText().toString()
-                                    //address.getText().toString()
-                            );
-                            DatabaseReference myRef=database.getReference().child("Registered Users").
-                                    child(task.getResult().getUser().getUid());
-
-                            // DatabaseReference abc=myRef.push();
-                            //abc.getKey();
-                            myRef.setValue(m);
-                            Toast.makeText(take_ph_no.this,"Registered Successfully",Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(take_ph_no.this,menu_1.class));
-
-
-                        }
-                        else
-                            Toast.makeText(take_ph_no.this, "Sign Up Failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 }

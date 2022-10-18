@@ -17,19 +17,20 @@
             android:layout_weight="0.1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:gravity="right"
+            android:gravity="center_vertical|right"
             >
 
             <TextView
-                android:id="@+id/newUser"
-                android:layout_marginTop="10dp"
+                android:id="@+id/sign_up_BT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:gravity="right|bottom"
                 android:text="Sign Up"
+                android:textSize="20dp"
+                android:gravity="right|bottom"
+                android:layout_marginRight="10dp"
                 android:textColor="#ffff"
-                android:textSize="20dp"></TextView>
+                >
+            </TextView>
         </LinearLayout>
         <LinearLayout
             android:layout_weight="0.2"
@@ -86,20 +87,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 >
-
                 <EditText
 
-                    android:id="@+id/phone_email"
+                    android:id="@+id/email_signup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-
-                    android:background="@drawable/rounded_textfield"
                     android:ems="10"
-                    android:hint="Email"
+                    android:background="@drawable/rounded_textfield"
                     android:inputType="textEmailAddress"
+                    android:hint="Email"
                     android:paddingLeft="10dp"
-                    android:textColorHint="#FFE338" />
+                    android:textColorHint="#FFE338"
+                    android:layout_margin="10dp"
+                    />
 
             </LinearLayout>
 
