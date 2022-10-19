@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -22,12 +23,18 @@ public class menu_1 extends AppCompatActivity {
     Uri AudioUri;
 
     ImageView play;
+    ImageView pause;
+
+    boolean flag=true;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu1);
 
         add=findViewById(R.id.add);
+        pause=findViewById(R.id.pause);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,14 +53,18 @@ public class menu_1 extends AppCompatActivity {
 
         play=findViewById(R.id.play);
 
+
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                player.reset();
 
-                if(AudioUri!=null) {
 
-                    player.reset();
+                if(AudioUri!=null && flag==true) {
+                     flag=false;
+
+
+                    pause.setVisibility(Button.VISIBLE);
+                    play.setVisibility(Button.GONE);
 
                     try {
                         player.setDataSource(menu_1.this, AudioUri);
@@ -64,6 +75,7 @@ public class menu_1 extends AppCompatActivity {
                     player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         @Override
                         public void onPrepared(MediaPlayer mediaPlayer) {
+
                             player.start();
                         }
                     });
@@ -72,12 +84,29 @@ public class menu_1 extends AppCompatActivity {
                     player.prepareAsync();
                 }
 
+                else if(AudioUri!=null){
+                    player.start();
+
+                }
                 else{
-                    Toast.makeText(menu_1.this,"No Music to Play",Toast.LENGTH_LONG).show();
+                   Toast.makeText(menu_1.this,"No Music to Play",Toast.LENGTH_LONG).show();
+
                 }
 
             }
 
+        });
+
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(player.isPlaying()){
+                    pause.setVisibility(Button.GONE);
+                    play.setVisibility(Button.VISIBLE);
+                    player.pause();
+                }
+
+            }
         });
 
 
