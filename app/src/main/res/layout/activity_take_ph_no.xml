@@ -8,14 +8,14 @@
     tools:context=".take_ph_no">
 
     <LinearLayout
-        android:weightSum="1"
+        android:weightSum="3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
 
         <LinearLayout
-            android:layout_weight="0.2"
+            android:layout_weight="0.5"
             android:weightSum="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,14 +59,17 @@
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_weight="0.6"
+            android:layout_weight="1.5"
+            android:weightSum="3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
             >
             <LinearLayout
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="0dp"
+
                 >
                 <EditText
 
@@ -77,6 +80,27 @@
                     android:background="@drawable/rounded_textfield"
                     android:inputType="phone"
                     android:hint="Enter Phone Number"
+                    android:paddingLeft="10dp"
+                    android:textColorHint="#FFE338"
+                    android:layout_margin="10dp"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+
+                >
+                <EditText
+
+                    android:id="@+id/PhNo_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:background="@drawable/rounded_textfield"
+                    android:inputType="numberPassword"
+                    android:hint="Enter Password"
                     android:paddingLeft="10dp"
                     android:textColorHint="#FFE338"
                     android:layout_margin="10dp"
@@ -94,5 +118,44 @@
                 />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_weight="1.5"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+
+                >
+            <EditText
+                android:id="@+id/otp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_textfield"
+                android:inputType="number"
+                android:textSize="30dp"
+                android:gravity="center"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="40dp"
+                android:hint="000000">
+
+            </EditText>
+            </LinearLayout>
+            <Button
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Verify"
+                android:textSize="20dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:id="@+id/verify_phno"/>
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>
