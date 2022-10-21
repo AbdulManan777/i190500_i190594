@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -47,6 +48,8 @@ public class menu_1 extends AppCompatActivity {
 
     boolean flag = true;
 
+    TextView SongName1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class menu_1 extends AppCompatActivity {
         play = findViewById(R.id.play);
         signout=findViewById(R.id.singout);
         mAuth=FirebaseAuth.getInstance();
+        SongName1=findViewById(R.id.songname);
 
         //Toast.makeText(menu_1.this,mAuth.getCurrentUser().getUid().toString(),Toast.LENGTH_LONG).show();
 
@@ -88,6 +92,31 @@ public class menu_1 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                FirebaseDatabase  database =FirebaseDatabase.getInstance();
+
+
+
+                database.getReference().child("Registered Users").child(mAuth.getCurrentUser().getUid()).child("Musics").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        String aud= (String) snapshot.child("Music URL").getValue();
+                        String SongName= (String) snapshot.child("Title").getValue();
+
+                        AudioUri=Uri.parse(aud);
+                        SongName1.setText(SongName);
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
                 if (AudioUri != null && flag == true) {
                     flag = false;
 
@@ -117,7 +146,7 @@ public class menu_1 extends AppCompatActivity {
                     player.start();
 
                 } else {
-                    Toast.makeText(menu_1.this, "No Music to Play", Toast.LENGTH_LONG).show();
+                    Toast.makeText(menu_1.this, "Please wait", Toast.LENGTH_LONG).show();
 
                 }
 
@@ -165,7 +194,7 @@ public class menu_1 extends AppCompatActivity {
             map.put("Description",desc);
             map.put("Music URL",aud);
 
-            DatabaseReference myRef=database.getReference().child("Registered Users").child("Musics");
+            DatabaseReference myRef=database.getReference().child("Registered Users").child(mAuth.getCurrentUser().getUid()).child("Musics");
 
             myRef.setValue(map);
 
