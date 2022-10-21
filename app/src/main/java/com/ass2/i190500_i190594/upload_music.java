@@ -5,9 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -31,6 +34,7 @@ public class upload_music extends AppCompatActivity {
     private final int PICK_AUDIO = 1;
     Uri AudioUri;
     Button up;
+    FirebaseAuth mAuth;
 
 
     @Override
@@ -39,6 +43,7 @@ public class upload_music extends AppCompatActivity {
         setContentView(R.layout.activity_upload_music);
 
         upload = findViewById(R.id.upload);
+        mAuth=FirebaseAuth.getInstance();
 
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,9 +76,10 @@ public class upload_music extends AppCompatActivity {
     public void sendMusic() {
 
         if(AudioUri!=null) {
-           /* Intent i = new Intent();
-            i.putExtra("Music", AudioUri.toString());
-            setResult(32, i);*/
+            Intent i=new Intent();
+            i.putExtra("AudioURL", AudioUri.toString());
+            setResult(Activity.RESULT_OK,i);
+            finish();
 
             finish();
         }
@@ -88,11 +94,13 @@ public class upload_music extends AppCompatActivity {
             if ((data != null) && (data.getData() != null)) {
                 // Audio is Picked in format of URI
 
+
                 AudioUri = data.getData();
                 Toast.makeText(upload_music.this,"Audio Selected",Toast.LENGTH_LONG).show();
-                FirebaseStorage storage=FirebaseStorage.getInstance();
+
                 Calendar c=Calendar.getInstance();
-                StorageReference ref=storage.getReference().child("Music/"+c.getTimeInMillis()+AudioUri+".mp3");
+                StorageReference ref=FirebaseStorage.getInstance().getReference().child("Music").child(mAuth.getUid()+c.getTimeInMillis()+".mp3");
+
                 ref.putFile(AudioUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -103,8 +111,8 @@ public class upload_music extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
 
+                                AudioUri=uri;
 
-                                Log.d("AudioURl",uri.toString());
                             }
                         });
 

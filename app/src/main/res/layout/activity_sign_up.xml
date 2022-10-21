@@ -19,15 +19,14 @@
             android:layout_height="0dp">
 
             <TextView
+                android:id="@+id/newUser"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Sign Up"
-                android:textSize="20dp"
-                android:gravity="right|bottom"
                 android:layout_marginRight="10dp"
+                android:gravity="right|bottom"
+                android:text="Sign Up"
                 android:textColor="#ffff"
-                >
-            </TextView>
+                android:textSize="20dp"></TextView>
         </LinearLayout>
         <LinearLayout
             android:layout_weight="0.2"
@@ -84,19 +83,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 >
+
                 <EditText
 
-                    android:id="@+id/email_signup"
+                    android:id="@+id/phone_signup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:ems="10"
-                    android:background="@drawable/rounded_textfield"
-                    android:inputType="textEmailAddress"
-                    android:hint="Email"
-                    android:paddingLeft="10dp"
-                    android:textColorHint="#FFE338"
                     android:layout_margin="10dp"
-                    />
+
+                    android:background="@drawable/rounded_textfield"
+                    android:ems="10"
+                    android:hint="Phone Number"
+                    android:inputType="phone"
+                    android:paddingLeft="10dp"
+                    android:textColorHint="#FFE338" />
 
             </LinearLayout>
 

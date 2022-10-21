@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,9 +39,10 @@ public class menu_1 extends AppCompatActivity {
     Uri AudioUri;
 
     ImageView play;
-    ImageView pause;
+    ImageView pause, signout;
+    FirebaseAuth mAuth;
 
-    boolean flag=true;
+    boolean flag = true;
 
 
     @Override
@@ -49,13 +52,15 @@ public class menu_1 extends AppCompatActivity {
 
         add = findViewById(R.id.add);
         pause = findViewById(R.id.pause);
-        play=findViewById(R.id.play);
+        play = findViewById(R.id.play);
+        signout=findViewById(R.id.singout);
+        mAuth=FirebaseAuth.getInstance();
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(menu_1.this, upload_music.class);
-                startActivity(intent);
+                startActivityForResult(intent, 32);
             }
 
 
@@ -63,7 +68,13 @@ public class menu_1 extends AppCompatActivity {
         MediaPlayer player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                startActivity(new Intent(menu_1.this,sign_up.class));
+            }
+        });
 
 
 
@@ -72,61 +83,47 @@ public class menu_1 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-                FirebaseStorage storage=FirebaseStorage.getInstance();
-                Task<Uri> ref=storage.getReference().child("Music/msf%3A6944.mp3").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
+                if (AudioUri != null && flag == true) {
+                    flag = false;
 
 
-                        if(uri!=null && flag==true) {
-                            flag=false;
+                    pause.setVisibility(Button.VISIBLE);
+                    play.setVisibility(Button.GONE);
 
-
-                            pause.setVisibility(Button.VISIBLE);
-                            play.setVisibility(Button.GONE);
-
-                            try {
-                                player.setDataSource(menu_1.this, AudioUri);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                @Override
-                                public void onPrepared(MediaPlayer mediaPlayer) {
-
-                                    player.start();
-                                }
-                            });
-
-
-                            player.prepareAsync();
-                        }
-
-                        else if(uri!=null){
-                            pause.setVisibility(Button.VISIBLE);
-                            play.setVisibility(Button.GONE);
-                            player.start();
-
-                        }
-                        else{
-                            Toast.makeText(menu_1.this,"No Music to Play",Toast.LENGTH_LONG).show();
-
-                        }
-
+                    try {
+                        player.setDataSource(menu_1.this, AudioUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                });
+
+                    player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mediaPlayer) {
+
+                            player.start();
+                        }
+                    });
 
 
+                    player.prepareAsync();
+                } else if (AudioUri != null) {
+                    pause.setVisibility(Button.VISIBLE);
+                    play.setVisibility(Button.GONE);
+                    player.start();
 
+                } else {
+                    Toast.makeText(menu_1.this, "No Music to Play", Toast.LENGTH_LONG).show();
 
-
-
+                }
 
             }
-
         });
+
+
+
+
+
+
 
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,5 +140,15 @@ public class menu_1 extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if(requestCode==32&&resultCode== Activity.RESULT_OK){
+
+            String i=data.getStringExtra("AudioURL");
+            AudioUri=Uri.parse(i);
+            Log.i("AudioURi",AudioUri.toString());
+        }
     }
+}

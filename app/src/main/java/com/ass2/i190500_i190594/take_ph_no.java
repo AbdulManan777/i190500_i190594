@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.TimeUnit;
 
@@ -95,7 +97,21 @@ public class take_ph_no extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(take_ph_no.this, "Sign Up Successful", Toast.LENGTH_SHORT).show();
+
+                            FirebaseDatabase  database =FirebaseDatabase.getInstance();
+                            DatabaseReference myRef=database.getReference("Registered Users");
+
+                            UserInfo m=new UserInfo(
+                                    Ph_no.getText().toString(),
+                                    Ph_no_password.getText().toString()
+                                    //address.getText().toString()
+                            );
+                            DatabaseReference abc=myRef.push();
+                            //abc.getKey();
+                            abc.setValue(m);
+                            Toast.makeText(take_ph_no.this,"Registered Successfully",Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(take_ph_no.this,menu_1.class));
+
 
                         }
                         else
