@@ -86,15 +86,15 @@
 
                 <EditText
 
-                    android:id="@+id/phone_signup"
+                    android:id="@+id/phone_email"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
 
                     android:background="@drawable/rounded_textfield"
                     android:ems="10"
-                    android:hint="Phone Number"
-                    android:inputType="phone"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="10dp"
                     android:textColorHint="#FFE338" />
 

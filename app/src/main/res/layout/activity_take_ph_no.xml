@@ -86,6 +86,27 @@
                     />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+
+                >
+                <EditText
+
+                    android:id="@+id/PhNo_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:background="@drawable/rounded_textfield"
+                    android:inputType="textEmailAddress"
+                    android:hint="Enter Email"
+                    android:paddingLeft="10dp"
+                    android:textColorHint="#FFE338"
+                    android:layout_margin="10dp"
+                    />
+            </LinearLayout>
             <LinearLayout
                 android:layout_weight="1"
                 android:layout_width="match_parent"

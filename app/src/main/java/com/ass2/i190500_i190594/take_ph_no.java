@@ -15,8 +15,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -26,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.concurrent.TimeUnit;
 
 public class take_ph_no extends AppCompatActivity {
-    EditText Ph_no,Ph_no_password, OTP;
+    EditText Ph_no,Ph_no_password, OTP, Phno_email;
     Button submit, verify;
     FirebaseAuth mAuth;
     String verification_id;
@@ -39,6 +42,7 @@ public class take_ph_no extends AppCompatActivity {
         submit = findViewById(R.id.submit_phno);
         OTP = findViewById(R.id.otp);
         verify = findViewById(R.id.verify_phno);
+        Phno_email=findViewById(R.id.PhNo_email);
         mAuth=FirebaseAuth.getInstance();
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -98,17 +102,40 @@ public class take_ph_no extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
 
+
+
+                            AuthCredential credential = EmailAuthProvider.getCredential(Phno_email.getText().toString(), Ph_no_password.getText().toString());
+
+                            mAuth.getCurrentUser().linkWithCredential(credential)
+                                    .addOnCompleteListener(take_ph_no.this, new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+
+                                                FirebaseUser user = task.getResult().getUser();
+
+                                            } else {
+
+                                                Toast.makeText(take_ph_no.this, "Authentication failed.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+
+
                             FirebaseDatabase  database =FirebaseDatabase.getInstance();
-                            DatabaseReference myRef=database.getReference("Registered Users");
 
                             UserInfo m=new UserInfo(
                                     Ph_no.getText().toString(),
                                     Ph_no_password.getText().toString()
                                     //address.getText().toString()
                             );
-                            DatabaseReference abc=myRef.push();
+                            DatabaseReference myRef=database.getReference().child("Registered Users").
+                                    child(task.getResult().getUser().getUid());
+
+                            // DatabaseReference abc=myRef.push();
                             //abc.getKey();
-                            abc.setValue(m);
+                            myRef.setValue(m);
                             Toast.makeText(take_ph_no.this,"Registered Successfully",Toast.LENGTH_LONG).show();
                             startActivity(new Intent(take_ph_no.this,menu_1.class));
 

@@ -31,6 +31,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class menu_1 extends AppCompatActivity {
 
@@ -55,6 +58,8 @@ public class menu_1 extends AppCompatActivity {
         play = findViewById(R.id.play);
         signout=findViewById(R.id.singout);
         mAuth=FirebaseAuth.getInstance();
+
+        //Toast.makeText(menu_1.this,mAuth.getCurrentUser().getUid().toString(),Toast.LENGTH_LONG).show();
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,9 +151,33 @@ public class menu_1 extends AppCompatActivity {
 
         if(requestCode==32&&resultCode== Activity.RESULT_OK){
 
-            String i=data.getStringExtra("AudioURL");
-            AudioUri=Uri.parse(i);
-            Log.i("AudioURi",AudioUri.toString());
+            String aud=data.getStringExtra("AudioURL");
+            String title=data.getStringExtra("Title");
+            String gen=data.getStringExtra("Genre");
+            String desc=data.getStringExtra("Description");
+
+            AudioUri=Uri.parse(aud);
+            FirebaseDatabase  database =FirebaseDatabase.getInstance();
+
+            HashMap<String,String> map=new HashMap<String,String>();//Creating HashMap
+            map.put("Title",title);  //Put elements in Map
+            map.put("Genre",gen);
+            map.put("Description",desc);
+            map.put("Music URL",aud);
+
+            DatabaseReference myRef=database.getReference().child("Registered Users").child("Musics");
+
+            myRef.setValue(map);
+
+
+
+
+
+
+
+
+
+
         }
     }
 }

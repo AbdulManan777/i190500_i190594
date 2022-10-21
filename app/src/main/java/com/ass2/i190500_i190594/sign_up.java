@@ -12,7 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +39,7 @@ public class sign_up extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         pass=findViewById(R.id.password_signup);
-        phone=findViewById(R.id.phone_signup);
+        phone=findViewById(R.id.phone_email);
         mAuth=FirebaseAuth.getInstance();
         signin=findViewById(R.id.sign_in);
         newuser=findViewById(R.id.newUser);
@@ -50,8 +56,24 @@ public class sign_up extends AppCompatActivity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+             //   Toast.makeText(sign_up.this,mAuth.getCurrentUser().getUid().toString(),Toast.LENGTH_LONG).show();
 
-                FirebaseDatabase database =FirebaseDatabase.getInstance();
+                AuthCredential credential = EmailAuthProvider.getCredential(phone.getText().toString(), pass.getText().toString());
+
+                mAuth.signInWithCredential(credential)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                FirebaseUser currentUser = task.getResult().getUser();
+
+                                startActivity(new Intent(sign_up.this,menu_1.class));
+                                // Merge prevUser and currentUser accounts and data
+                                // ...
+                            }
+                        });
+
+
+               /* FirebaseDatabase database =FirebaseDatabase.getInstance();
                 DatabaseReference ref=database.getReference("Registered Users");
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -74,7 +96,9 @@ public class sign_up extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
-                });
+                });*/
+
+
 
             }
         });

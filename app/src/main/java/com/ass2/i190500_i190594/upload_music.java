@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -36,6 +37,8 @@ public class upload_music extends AppCompatActivity {
     Button up;
     FirebaseAuth mAuth;
 
+    EditText title,genere,description;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,9 @@ public class upload_music extends AppCompatActivity {
 
         upload = findViewById(R.id.upload);
         mAuth=FirebaseAuth.getInstance();
+        title=findViewById(R.id.Title);
+        genere=findViewById(R.id.Genre);
+        description=findViewById(R.id.Description);
 
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +70,8 @@ public class upload_music extends AppCompatActivity {
         up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 sendMusic();
             }
         });
@@ -75,14 +83,41 @@ public class upload_music extends AppCompatActivity {
 
     public void sendMusic() {
 
-        if(AudioUri!=null) {
+        if (title.getText().toString().isEmpty()) {
+            title.setError("Please Enter the title of Song");
+            title.requestFocus();
+            return;
+
+
+        }
+
+
+
+        if (genere.getText().toString().isEmpty()) {
+            genere.setError("Please Enter genre of music");
+            title.requestFocus();
+            return;
+
+
+        }
+
+        if(AudioUri==null){
+            Toast.makeText(upload_music.this,"Please select and Audio File first",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
             Intent i=new Intent();
             i.putExtra("AudioURL", AudioUri.toString());
+            i.putExtra("Title",title.getText().toString());
+            i.putExtra("Genre",genere.getText().toString());
+            i.putExtra("Description",description.getText().toString());
+
             setResult(Activity.RESULT_OK,i);
             finish();
 
             finish();
-        }
+
     }
 
 
