@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class menu_1 extends AppCompatActivity {
 
@@ -43,7 +45,7 @@ public class menu_1 extends AppCompatActivity {
     Uri AudioUri;
 
     ImageView play;
-    ImageView pause, signout;
+    ImageView pause, signout,playlist2;
     FirebaseAuth mAuth;
 
     boolean flag = true;
@@ -62,6 +64,7 @@ public class menu_1 extends AppCompatActivity {
         signout=findViewById(R.id.singout);
         mAuth=FirebaseAuth.getInstance();
         SongName1=findViewById(R.id.songname);
+        playlist2=findViewById(R.id.playlist2);
 
         //Toast.makeText(menu_1.this,mAuth.getCurrentUser().getUid().toString(),Toast.LENGTH_LONG).show();
 
@@ -96,11 +99,42 @@ public class menu_1 extends AppCompatActivity {
 
 
 
-                database.getReference().child("Registered Users").child(mAuth.getCurrentUser().getUid()).child("Musics").addValueEventListener(new ValueEventListener() {
+                database.getReference().child("Registered Users").child(mAuth.getCurrentUser().getUid()).child("Musics").addChildEventListener(new ChildEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                         String aud= (String) snapshot.child("Music URL").getValue();
+                        String name= (String) snapshot.child("Title").getValue();
+
+                        SongName1.setText(name);
+                        AudioUri=Uri.parse(aud);
+
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                   /* @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        String aud= (String) snapshot.child(Objects.requireNonNull(database.getReference().getKey())).child("Music URL").getValue();
                         String SongName= (String) snapshot.child("Title").getValue();
 
                         AudioUri=Uri.parse(aud);
@@ -113,7 +147,7 @@ public class menu_1 extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
-                });
+                });*/
 
 
 
@@ -194,7 +228,7 @@ public class menu_1 extends AppCompatActivity {
             map.put("Description",desc);
             map.put("Music URL",aud);
 
-            DatabaseReference myRef=database.getReference().child("Registered Users").child(mAuth.getCurrentUser().getUid()).child("Musics");
+            DatabaseReference myRef=database.getReference().child("Registered Users").child(mAuth.getCurrentUser().getUid()).child("Musics").push();
 
             myRef.setValue(map);
 
