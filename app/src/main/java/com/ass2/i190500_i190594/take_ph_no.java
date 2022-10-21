@@ -96,6 +96,7 @@ public class take_ph_no extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(take_ph_no.this, "Sign Up Successful", Toast.LENGTH_SHORT).show();
+
                         }
                         else
                             Toast.makeText(take_ph_no.this, "Sign Up Failed", Toast.LENGTH_SHORT).show();
