@@ -20,9 +20,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".upload_music"
-            android:exported="false" />
-        <activity
             android:name=".Profile_on_menu"
             android:exported="false" />
         <activity
