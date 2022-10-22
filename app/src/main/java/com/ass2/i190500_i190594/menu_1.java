@@ -226,7 +226,7 @@ public class menu_1 extends AppCompatActivity {
             String title=data.getStringExtra("Title");
             String gen=data.getStringExtra("Genre");
             String desc=data.getStringExtra("Description");
-
+            SongName1.setText(title);
             AudioUri=Uri.parse(aud);
             FirebaseDatabase  database =FirebaseDatabase.getInstance();
 
