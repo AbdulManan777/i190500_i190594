@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -52,31 +53,31 @@ public class sign_up extends AppCompatActivity {
             }
         });
 
-
-
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
              //   Toast.makeText(sign_up.this,mAuth.getCurrentUser().getUid().toString(),Toast.LENGTH_LONG).show();
+                if ( !TextUtils.isEmpty(phone.getText().toString()) && !TextUtils.isEmpty(pass.getText().toString())) {
+                    AuthCredential credential = EmailAuthProvider.getCredential(phone.getText().toString(), pass.getText().toString());
 
-                AuthCredential credential = EmailAuthProvider.getCredential(phone.getText().toString(), pass.getText().toString());
+                    mAuth.signInWithCredential(credential)
 
-                mAuth.signInWithCredential(credential)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        FirebaseUser currentUser = task.getResult().getUser();
 
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    FirebaseUser currentUser = task.getResult().getUser();
+                                        startActivity(new Intent(sign_up.this, menu_1.class));
+                                        // Merge prevUser and currentUser accounts and data
+                                        // ...
+                                    } else
+                                        Toast.makeText(sign_up.this, "Add Valid User's Email and Password", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else
+                    Toast.makeText(sign_up.this, "Please Enter Email and Password", Toast.LENGTH_SHORT).show();
 
-                                    startActivity(new Intent(sign_up.this, menu_1.class));
-                                    // Merge prevUser and currentUser accounts and data
-                                    // ...
-                                } else
-                                    Toast.makeText(sign_up.this, "Add Valid User's Email and Password", Toast.LENGTH_SHORT).show();
-
-                            }
-                        });
 
 
 
