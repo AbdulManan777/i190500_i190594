@@ -45,7 +45,7 @@ public class menu_1 extends AppCompatActivity {
     Uri AudioUri;
 
     ImageView play;
-    ImageView pause, signout,playlist2;
+    ImageView pause, signout,playlist2,searchMusic;
     FirebaseAuth mAuth;
 
     boolean flag = true;
@@ -65,6 +65,7 @@ public class menu_1 extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         SongName1=findViewById(R.id.songname);
         playlist2=findViewById(R.id.playlist2);
+        searchMusic=findViewById(R.id.SearchMusic);
 
         //Toast.makeText(menu_1.this,mAuth.getCurrentUser().getUid().toString(),Toast.LENGTH_LONG).show();
 
@@ -76,6 +77,14 @@ public class menu_1 extends AppCompatActivity {
             }
 
 
+        });
+
+        searchMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(menu_1.this, Recent_searches.class);
+                startActivityForResult(intent, 34);
+            }
         });
         MediaPlayer player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -95,8 +104,7 @@ public class menu_1 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                FirebaseDatabase  database =FirebaseDatabase.getInstance();
-
+               /* FirebaseDatabase  database =FirebaseDatabase.getInstance();
 
 
                 database.getReference().child("Registered Users").child(mAuth.getCurrentUser().getUid()).child("Musics").addChildEventListener(new ChildEventListener() {
@@ -130,7 +138,7 @@ public class menu_1 extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
-                });
+                });*/
                    /* @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -242,5 +250,22 @@ public class menu_1 extends AppCompatActivity {
 
 
         }
+
+        if(requestCode==34&&resultCode==Activity.RESULT_OK){
+
+            String aud=data.getStringExtra("AudioURL");
+            String title=data.getStringExtra("Title");
+
+            AudioUri=Uri.parse(aud);
+            SongName1.setText(title);
+
+
+
+
+        }
     }
+
+
+
+
 }

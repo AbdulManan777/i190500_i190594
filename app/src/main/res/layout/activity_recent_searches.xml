@@ -20,7 +20,7 @@
             >
         </ImageView>
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/searchtv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
@@ -57,8 +57,10 @@
         android:orientation="vertical"
         >
         <LinearLayout
+            android:id="@+id/musicsearched"
             android:layout_weight="1"
             android:weightSum="1"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
@@ -90,6 +92,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp">
                     <TextView
+                        android:id="@+id/TitleSong"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Song Name"
@@ -128,151 +131,23 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_weight="1"
-            android:weightSum="1"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/searchmusic"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
-
-            <View
-                android:layout_weight="0.05"
-                android:layout_width="0dp"
-                android:layout_height="match_parent">
-            </View>
-            <LinearLayout
-                android:layout_weight="0.2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:layout_margin="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/despacito"
-                    ></ImageView>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_weight="0.6"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
-                <LinearLayout
-                    android:layout_weight="0.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Song Name"
-                        android:textColor="@color/white"
-                        android:textSize="18dp"
-                        android:paddingLeft="20dp"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_weight="0.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Artist"
-                        android:textColor="@color/corn"
-                        android:textSize="15dp"
-                        android:paddingLeft="20dp"
-                        />
-                </LinearLayout>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_weight="0.15"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                >
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/cancel_icon"
-                    />
-
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_weight="1"
-            android:weightSum="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-
-            <View
-                android:layout_weight="0.05"
-                android:layout_width="0dp"
-                android:layout_height="match_parent">
-            </View>
-            <LinearLayout
-                android:layout_weight="0.2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:layout_margin="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/despacito"
-                    ></ImageView>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_weight="0.6"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
-                <LinearLayout
-                    android:layout_weight="0.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Song Name"
-                        android:textColor="@color/white"
-                        android:textSize="18dp"
-                        android:paddingLeft="20dp"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_weight="0.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Artist"
-                        android:textColor="@color/corn"
-                        android:textSize="15dp"
-                        android:paddingLeft="20dp"
-                        />
-                </LinearLayout>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_weight="0.15"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                >
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/cancel_icon"
-                    />
-
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:text="Search Music"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            />
 
 
     </LinearLayout>
+
+
+
+
+
 
     <LinearLayout
         android:layout_weight="0.05"

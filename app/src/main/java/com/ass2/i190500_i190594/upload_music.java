@@ -116,7 +116,7 @@ public class upload_music extends AppCompatActivity {
             setResult(Activity.RESULT_OK,i);
             finish();
 
-            finish();
+          //  finish();
 
     }
 
