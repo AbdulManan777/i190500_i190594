@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -61,16 +62,22 @@ public class sign_up extends AppCompatActivity {
                 AuthCredential credential = EmailAuthProvider.getCredential(phone.getText().toString(), pass.getText().toString());
 
                 mAuth.signInWithCredential(credential)
+
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                FirebaseUser currentUser = task.getResult().getUser();
+                                if (task.isSuccessful()) {
+                                    FirebaseUser currentUser = task.getResult().getUser();
 
-                                startActivity(new Intent(sign_up.this,menu_1.class));
-                                // Merge prevUser and currentUser accounts and data
-                                // ...
+                                    startActivity(new Intent(sign_up.this, menu_1.class));
+                                    // Merge prevUser and currentUser accounts and data
+                                    // ...
+                                } else
+                                    Toast.makeText(sign_up.this, "Add Valid User's Email and Password", Toast.LENGTH_SHORT).show();
+
                             }
                         });
+
 
 
                /* FirebaseDatabase database =FirebaseDatabase.getInstance();
