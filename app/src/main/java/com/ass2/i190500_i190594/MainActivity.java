@@ -35,13 +35,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(mAuth.getCurrentUser()!=null){
-            Intent i = new Intent(MainActivity.this, menu_1.class);
-            startActivity(i);
 
-        }
-    }
 }
