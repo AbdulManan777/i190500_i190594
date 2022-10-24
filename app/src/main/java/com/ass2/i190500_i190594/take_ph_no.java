@@ -42,7 +42,7 @@ public class take_ph_no extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(Ph_no.getText().toString()) || TextUtils.isEmpty(Ph_no_password.getText().toString()))
+                if (TextUtils.isEmpty(Ph_no.getText().toString()) || TextUtils.isEmpty(Ph_no_password.getText().toString()) || TextUtils.isEmpty(Phno_email.getText().toString()))
                     Toast.makeText(take_ph_no.this, "Enter Phone Number and Password", Toast.LENGTH_SHORT).show();
                 else {
                     PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth)
