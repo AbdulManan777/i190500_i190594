@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth=FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser()==null) {
+        if(mAuth.getCurrentUser() == null) {
             new Handler().postDelayed(new Runnable() {
 
                 @Override
@@ -31,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
             }, 3000);//
+        } else {
+            startActivity(new Intent(MainActivity.this, menu_1.class));
+            finish();
         }
     }
 

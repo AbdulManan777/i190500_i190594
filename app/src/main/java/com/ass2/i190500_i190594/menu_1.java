@@ -3,6 +3,7 @@ package com.ass2.i190500_i190594;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,8 +13,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,11 +44,13 @@ import java.util.Objects;
 public class menu_1 extends AppCompatActivity {
 
     ImageView add;
-
+    ImageView menu_bt;
+    ImageView id_profile;
+    TextView userName, edit_pro, edit_pro_pass;
     Uri AudioUri;
-
+    DrawerLayout dwr;
     ImageView play;
-    ImageView pause, signout,playlist2,searchMusic;
+    ImageView pause, playlist2,searchMusic;
     FirebaseAuth mAuth;
 
     boolean flag = true;
@@ -61,22 +66,56 @@ public class menu_1 extends AppCompatActivity {
         add = findViewById(R.id.add);
         pause = findViewById(R.id.pause);
         play = findViewById(R.id.play);
-        signout=findViewById(R.id.singout);
         mAuth=FirebaseAuth.getInstance();
         SongName1=findViewById(R.id.songname);
         playlist2=findViewById(R.id.playlist2);
         searchMusic=findViewById(R.id.SearchMusic);
+        menu_bt=findViewById(R.id.menu_bt);
+        userName = findViewById(R.id.user_name);
+        id_profile = findViewById(R.id.id_profile);
+        edit_pro = findViewById(R.id.edit_profile);
+        edit_pro_pass = findViewById(R.id.edit_profile_);
+        dwr = findViewById(R.id.drwr);
 
-        //Toast.makeText(menu_1.this,mAuth.getCurrentUser().getUid().toString(),Toast.LENGTH_LONG).show();
+        //setting user's Name on Creation Time for profile layout file
+        userName.setText(mAuth.getCurrentUser().getEmail());
 
+        id_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(menu_1.this, Profile.class));
+            }
+        });
+
+        menu_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dwr.isDrawerOpen(Gravity.LEFT))
+                    dwr.closeDrawer(Gravity.LEFT);
+                else
+                    dwr.openDrawer(Gravity.LEFT);
+            }
+        });
+
+        edit_pro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(menu_1.this, Edit_profile.class));
+            }
+        });
+
+        edit_pro_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(menu_1.this, Edit_profile.class));
+            }
+        });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(menu_1.this, upload_music.class);
                 startActivityForResult(intent, 32);
             }
-
-
         });
 
         searchMusic.setOnClickListener(new View.OnClickListener() {
@@ -88,15 +127,6 @@ public class menu_1 extends AppCompatActivity {
         });
         MediaPlayer player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-        signout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                startActivity(new Intent(menu_1.this,sign_up.class));
-            }
-        });
-
 
 
 
@@ -251,7 +281,7 @@ public class menu_1 extends AppCompatActivity {
 
         }
 
-        if(requestCode==34&&resultCode==Activity.RESULT_OK){
+        if(requestCode==34 && resultCode==Activity.RESULT_OK){
 
             String aud=data.getStringExtra("AudioURL");
             String title=data.getStringExtra("Title");
@@ -266,6 +296,10 @@ public class menu_1 extends AppCompatActivity {
     }
 
 
-
-
+    // Sign out method implemented
+    public void Sign_Out(View view){
+        mAuth.signOut();
+        startActivity(new Intent(menu_1.this, sign_up.class));
+        finish();
+    }
 }
