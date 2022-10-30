@@ -67,8 +67,10 @@ public class sign_up extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         FirebaseUser currentUser = task.getResult().getUser();
-
+                                        // changing the lower line and moving the flow from sign in to chat screen
                                         startActivity(new Intent(sign_up.this, menu_1.class));
+                                        //startActivity(new Intent(sign_up.this, Chat_mainScreen.class));
+                                        finish();
                                         // Merge prevUser and currentUser accounts and data
                                         // ...
                                     } else
