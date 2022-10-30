@@ -41,10 +41,10 @@ public class sign_up extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         pass=findViewById(R.id.password_signup);
-        phone=findViewById(R.id.phone_email);
+        phone=findViewById(R.id.email_signup);
         mAuth=FirebaseAuth.getInstance();
         signin=findViewById(R.id.sign_in);
-        newuser=findViewById(R.id.newUser);
+        newuser=findViewById(R.id.sign_up_BT);
 
         newuser.setOnClickListener(new View.OnClickListener() {
             @Override
