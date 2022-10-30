@@ -80,6 +80,13 @@ public class menu_1 extends AppCompatActivity {
         //setting user's Name on Creation Time for profile layout file
         userName.setText(mAuth.getCurrentUser().getEmail());
 
+        playlist2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(menu_1.this,AddSongsInPlaylistActivity.class));
+            }
+        });
+
         id_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

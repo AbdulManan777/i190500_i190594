@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SongsListFirebaseActivity extends AppCompatActivity {
+public class SongsListFirebaseActivity extends AppCompatActivity  {
 
     private RecyclerView recyclerView;
     private ArrayList<SongsListCheckBox> modelArrayList;
