@@ -13,6 +13,20 @@
         android:theme="@style/Theme.I190500_i190594"
         tools:targetApi="31">
         <activity
+            android:name=".SongsListFirebaseActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AddSongsInPlaylistActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".take_ph_no"
             android:exported="false">
             <meta-data

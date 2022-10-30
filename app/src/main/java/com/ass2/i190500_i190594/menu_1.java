@@ -79,6 +79,13 @@ public class menu_1 extends AppCompatActivity {
 
         });
 
+        playlist2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(menu_1.this,AddSongsInPlaylistActivity.class));
+            }
+        });
+
         searchMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
